@@ -40,104 +40,77 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
 import com.example.myprofil.ui.theme.MyProfilTheme
 
+
+
+
+
 class MainActivity : ComponentActivity() {
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
+            val windowSizeClass = calculateWindowSizeClass(this)
             MyProfilTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "profil"
+                    ) {
+                        composable("profil") {
+
+                            Screen(windowSizeClass, navController)
+                        }
+                        composable("films") {
+                            Screenfilm(windowSizeClass)
+
+
+                        }
+
+                    }
+
 
                 }
                 val windowSizeClass = calculateWindowSizeClass(this)
-                Screen(windowSizeClass)
 
 
             }
+
         }
 
     }
 
     @Composable
-    fun Screen(windowClass: WindowSizeClass){
+    fun Screen(windowClass: WindowSizeClass, navController: NavController) {
         when (windowClass.widthSizeClass) {
             WindowWidthSizeClass.Compact -> {
-                Column(horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize()) {
-                    Spacer(modifier = Modifier.height(50.dp))
-
-                    Image(
-                        painterResource(R.drawable.basel),
-                        contentDescription = "photo de profil",
-                        modifier = Modifier
-                            .size(200.dp)
-                            .clip(CircleShape)
-                            .border(3.dp, Color.Black, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(textAlign = TextAlign.Justify, text = "Etudiant en 4ième an alternance "
-                        ,
-                        fontSize=20.sp)
-                    Text(textAlign = TextAlign.Justify, text =
-                    "à l'école d'ingénieur ISIS",
-                        fontSize=20.sp)
-
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text(
-                            text = "Nom : AL KHATIB",
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-                        )
-                        Text(
-                            text = "Prénom : BASEL",
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp,
-                                color = Color.Black
-                            )
-                        )
-                        Text(
-                            text = "Adresse mail : basil.kh9957@gmail.com",
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                color = Color.Gray
-                            )
-                        )
-                        Text(
-                            text = "Téléphone : 06593077687",
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                color = Color.Gray
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Button(onClick = {
-                            //your onclick code here
-                        }) {
-                            Text(text = "Démarrer",
-                                style = TextStyle(fontSize = 16.sp,
-                                )
-                            )
-                        }
-                    }
-                }
+                LayoutVert(navController)
             }
+
+
             else -> {
-                Row(Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
 
                     Column(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(
                             modifier = Modifier.height(30.dp)
@@ -169,60 +142,155 @@ class MainActivity : ComponentActivity() {
                     }
 
 
-                        Column(horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.fillMaxSize()) {
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = "Nom : AL KHATIB",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 18.sp,
-                                    color = Color.Black
-                                )
-                            )
-                            Text(
-                                text = "Prénom : BASEL",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 18.sp,
-                                    color = Color.Black
-                                )
-                            )
-                            Text(
-                                text = "Adresse mail : basil.kh9957@gmail.com",
-                                style = TextStyle(
-                                    fontSize = 16.sp,
-                                    color = Color.Gray
-                                )
-                            )
-                            Text(
-                                text = "Téléphone : 06593077687",
-                                style = TextStyle(
-                                    fontSize = 16.sp,
-                                    color = Color.Gray
-                                )
-                            )
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Button(onClick = {
-                                //your onclick code here
-                            }) {
-                                Text(text = "Démarrer",
-                                    style = TextStyle(fontSize = 16.sp,
-                                    )
-                                )
-                            }
-                        }
 
-
-
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(50.dp))
+                        Text(
+                            text = "Nom : AL KHATIB",
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            )
+                        )
+                        Text(
+                            text = "Prénom : BASEL",
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            )
+                        )
+                        Text(
+                            text = "Adresse mail : ",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                color = Color.Gray
+                            )
+                        )
+                        Text(
+                            text = "basil.kh9957@gmail.com",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                color = Color.Gray
+                            )
+                        )
+                        Text(
+                            text = "Téléphone : 06593077687",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                color = Color.Gray
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        button(navController , contenu ="submit" )
+                    }
                 }
+            }
+
+
+        }
+    }
+
+    @Composable
+    fun LayoutVert(navController: NavController) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Image(
+                painterResource(R.drawable.basel),
+                contentDescription = "photo de profil",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(CircleShape)
+                    .border(3.dp, Color.Black, CircleShape)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                textAlign = TextAlign.Justify, text = "Etudiant en 4ième an alternance ",
+                fontSize = 20.sp
+            )
+            Text(
+                textAlign = TextAlign.Justify, text =
+                "à l'école d'ingénieur ISIS",
+                fontSize = 20.sp
+            )
+
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Nom : AL KHATIB",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.Black
+                    )
+                )
+                Text(
+                    text = "Prénom : BASEL",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.Black
+                    )
+                )
+                Text(
+                    text = "Adresse mail : basil.kh9957@gmail.com",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
+                )
+                Text(
+                    text = "Téléphone : 06593077687",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                button(navController , contenu ="submit" )
             }
         }
 
 
+    }
+
+    @Composable
+    fun Screenfilm(windowClass: WindowSizeClass) {
+        when (windowClass.widthSizeClass) {
+            WindowWidthSizeClass.Compact -> {
+                Text(text = "Hello")
+            }
+            else ->{
+                Text(text = "Vous êtes en paysage")
+            }
+        }
 
     }
+
+    @Composable
+    fun button(navController: NavController, contenu: String) {
+        Button(onClick = { navController.navigate("films") }) {
+            Text(text = "Démarer")
+        }
+    }
+
+
+
 }
+
 
 
 
