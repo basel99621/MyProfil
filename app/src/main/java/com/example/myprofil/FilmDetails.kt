@@ -16,6 +16,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,119 +30,120 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.myprofil.ScaffoldExample
 
 
 @SuppressLint("SuspiciousIndentation", "RememberReturnType")
 @Composable
-fun FilmsDetails(viewModel: MainViewModel, id: String){
+fun FilmsDetails(viewModel: MainViewModel, id: String, windowClass: WindowSizeClass){
 
 
-    affichageDetailsFilm(viewModel,id)
+    affichageDetailsFilm(viewModel,id, windowClass)
 
 
 
 }
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun affichageDetailsFilm(viewModel: MainViewModel, id: String){
+fun affichageDetailsFilm(viewModel: MainViewModel, id: String, windowClass: WindowSizeClass){
 
 
     val moviedetails by viewModel.moviesDetails.collectAsState()
 
     viewModel.getFilmDetails(id)
-
-
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2)
-            ){
-                item(span ={ GridItemSpan(maxCurrentLineSpan) }){
-                    moviedetails.original_title?.let {
-                        Text(
-                            text = it,
-                            style = TextStyle(
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                    }
-                }
-
-                item (span ={ GridItemSpan(maxCurrentLineSpan) }){
-                    if (moviedetails.backdrop_path == null) {
-                        CoverImageDetail(imageUrl = "https://votre-image-url.com")
-                    } else {
-                        CoverImageDetail(imageUrl = moviedetails.backdrop_path!!)
-                    }
-                }
-
-                // Ajoutez un Spacer ici pour l'espace souhaité
-                item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                    Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
-                }
-
-                item() {
-                    if (moviedetails.poster_path== null) {
-                        CoverImageDetail(imageUrl = urldefaulft)
-                    } else {
-                        CoverImageDetail(imageUrl = moviedetails.poster_path!!)
-                    }
-                }
-                item {
-                    Column {
-                        moviedetails.release_date?.let { Text(text = it, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Light)) }
-                        val genres = moviedetails.genres?: listOf()
-                        Text(
-                            text = buildGenresText(genres),
-                            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold, fontStyle = FontStyle.Italic)
-                        )
-                    }
-                }
-                item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                    Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
-                }
-                item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
-                    Text(
-                        text = "Synopsys",
-                        style = TextStyle(
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold
-                        ),)
-                }
-                item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                    Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
-                }
-                item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
-                    Text(
-                        text = "${moviedetails.overview}",
-                        style = TextStyle(
-                            fontSize = 25.sp,
-                        ),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
+    ){
+        item(span ={ GridItemSpan(maxCurrentLineSpan) }){
+            moviedetails.original_title?.let {
+                Text(
+                    text = it,
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                }
-                item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                    Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
-                }
-                item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
-                    Text(
-                        text = "Tête d'affiche",
-                        style = TextStyle(
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                }
-                item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                    Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
-                }
-                moviedetails.credits?.let {
-                    items(it.cast){
-                            acteur -> ActeursCardMovies(acteur = acteur)
-                    }
-                }
-
-
+                )
             }
+        }
+
+        item (span ={ GridItemSpan(maxCurrentLineSpan) }){
+            if (moviedetails.backdrop_path == null) {
+                CoverImageDetail(imageUrl = "https://votre-image-url.com")
+            } else {
+                CoverImageDetail(imageUrl = moviedetails.backdrop_path!!)
+            }
+        }
+
+        // Ajoutez un Spacer ici pour l'espace souhaité
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
+        }
+
+        item() {
+            if (moviedetails.poster_path== null) {
+                CoverImageDetail(imageUrl = urldefaulft)
+            } else {
+                CoverImageDetail(imageUrl = moviedetails.poster_path!!)
+            }
+        }
+        item {
+            Column {
+                moviedetails.release_date?.let { Text(text = it, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Light)) }
+                val genres = moviedetails.genres?: listOf()
+                Text(
+                    text = buildGenresText(genres),
+                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold, fontStyle = FontStyle.Italic)
+                )
+            }
+        }
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
+        }
+        item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
+            Text(
+                text = "Synopsys",
+                style = TextStyle(
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold
+                ),)
+        }
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
+        }
+        item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
+            Text(
+                text = "${moviedetails.overview}",
+                style = TextStyle(
+                    fontSize = 25.sp,
+                ),
+            )
+        }
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
+        }
+        item (span ={ GridItemSpan(maxCurrentLineSpan) }) {
+            Text(
+                text = "Tête d'affiche",
+                style = TextStyle(
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+        item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+            Spacer(modifier = Modifier.height(16.dp)) // Vous pouvez ajuster la hauteur selon vos besoins
+        }
+        moviedetails.credits?.let {
+            items(it.cast){
+                    acteur -> ActeursCardMovies(acteur = acteur)
+            }
+        }
+
+
+    }
+
+
+
 
 
 
@@ -174,7 +177,7 @@ fun ActeursCardMovies(acteur:Cast){
             if (acteur.profile_path == null){
                 CoverImage(imageUrl = "https://media.licdn.com/dms/image/C4D03AQHosBjWh4JapA/profile-displayphoto-shrink_800_800/0/1638740735138?e=1703116800&v=beta&t=AbBUBYo2U1Uhm3xs4dhWKV8ypsG_7jboIb-q5JuvgIM")
             } else {
-                CoverImage(imageUrl = acteur.profile_path)
+                CoverImageActeur(imageUrl = acteur.profile_path)
             }
             // Titre du film
             acteur.original_name?.let {

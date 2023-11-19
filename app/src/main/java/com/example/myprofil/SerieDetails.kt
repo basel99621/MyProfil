@@ -2,6 +2,7 @@ package com.example.premiereapp
 
 import Cast
 import CoverImage
+import CoverImageActeur
 import MainViewModel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -156,9 +157,7 @@ fun SerieAffichage(viewModel: MainViewModel, id: String){
             }
 
         }
-    } /*else{
-        affichageSeriesSemaine(serieId, navController ,MainViewModel())
-    }*/
+    }
 
 
 }
@@ -191,7 +190,7 @@ fun ActeursCardSerie(acteur:Cast){
             if (acteur.profile_path == null){
                 CoverImage(imageUrl = urldefaulfts)
             } else {
-                CoverImageDetailSerie(imageUrl = acteur.profile_path)
+                CoverImageActeur(imageUrl = acteur.profile_path)
             }
             // Nom de l'acteur
             acteur.original_name?.let {

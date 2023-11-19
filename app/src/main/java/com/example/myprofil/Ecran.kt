@@ -85,7 +85,6 @@ fun Screenfilm(
 @Composable
 fun ScaffoldExample(serieId: MutableStateFlow<String>, filmId:MutableStateFlow<String>, navController: NavController, viewModel: MainViewModel, windowClass: WindowSizeClass) {
     var  selectedItem by remember { mutableStateOf("") }
-
     var showSearchBar by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
 
@@ -273,7 +272,7 @@ fun ScaffoldExample(serieId: MutableStateFlow<String>, filmId:MutableStateFlow<S
                 }
                 viewModel.rememberSelectedItem.value=selectedItem
                 viewModel.rememberSelectedItemPortrait.value=selectedItem
-                viewModel.rememberDernierRecherche.value=searchText
+
             }
             }
 
@@ -386,8 +385,6 @@ Box (
             } else if(searchText!="") {
 
                 RechercheFilms(filmId, navController ,name = searchText, viewModel = MainViewModel())
-            } else if(viewModel.rememberDernierRecherche.value!=""){
-                RechercheFilms(filmId, navController ,name = viewModel.rememberDernierRecherche.value, viewModel = MainViewModel())
             }
         } else {
             Film(filmId ,navController , viewModel = MainViewModel())
@@ -421,6 +418,8 @@ Box (
             Film(filmId ,navController ,viewModel = MainViewModel())
         } else if(viewModel.rememberSelectedItem.value!="") {
             selectedItem = viewModel.rememberSelectedItem.value
+        } else if(searchText!="") {
+            RechercheFilms(filmId , navController , name = searchText, viewModel = MainViewModel() )
         }
 
     }

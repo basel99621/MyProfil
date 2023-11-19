@@ -37,13 +37,9 @@ class MainActivity : ComponentActivity() {
             val windowSizeClass = calculateWindowSizeClass(this)
             val filmId = viewModel.filmId
             val serieId = viewModel.serieId
-
-
             val navController = rememberNavController()
             MyProfilTheme {
                 //Navigation(navController = navController,windowSizeClass)
-
-
             }
 
             // A surface container using the 'background' color from the theme
@@ -67,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         Screenfilm(serieId,filmId,navController , viewModel =viewModel ,windowSizeClass)
                     }
                     composable(route = "filmDetails"){
-                        FilmsDetails(viewModel=viewModel, filmId.collectAsState().value)
+                        FilmsDetails(viewModel=viewModel, filmId.collectAsState().value, windowSizeClass)
 
                     }
                     composable("affichageFilms") {

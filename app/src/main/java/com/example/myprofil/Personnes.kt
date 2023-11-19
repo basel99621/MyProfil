@@ -79,13 +79,7 @@ fun affichageActeursSemaine(viewModel: MainViewModel, windowClass: WindowSizeCla
 
 @Composable
 fun ActeursCard(acteurs: Person) {
-    var detail by remember {
-        mutableStateOf(0)
-    }
 
-    var idacteur by remember {
-        mutableStateOf("")
-    }
 
     ElevatedCard(
         colors = CardDefaults.cardColors(
@@ -102,14 +96,7 @@ fun ActeursCard(acteurs: Person) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize()
-                .clickable {
-                    detail = 1
-
-                    idacteur = acteurs.id.toString()
-
-                }
-            ,
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
 
         ) {

@@ -30,6 +30,7 @@ import com.example.myprofil.R
 @Composable
 fun Screen(windowClass: WindowSizeClass, navController: NavController, viewModel: MainViewModel) {
     when (windowClass.widthSizeClass) {
+
         WindowWidthSizeClass.Compact -> {
             LayoutVert(navController, viewModel)
         }
@@ -132,9 +133,11 @@ fun Screen(windowClass: WindowSizeClass, navController: NavController, viewModel
 @Composable
 fun button(navController: NavController, contenu: String, viewModel: MainViewModel) {
 
-    viewModel.rememberSelectedItem.value="Films"
+
     viewModel.iconeVisible.value=true
        Button(onClick = { navController.navigate("films")
+           viewModel.rememberSelectedItemPortrait.value="Films"
+           viewModel.rememberSelectedItem.value="Films"
         }) {
             Text("Démarer")
         }

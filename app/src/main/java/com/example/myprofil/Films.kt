@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -53,18 +54,18 @@ fun affichageFilmsSemaine(filmId: MutableStateFlow<String>, navController: NavCo
 
         if (movies.isEmpty()) viewModel.getWeekMovies()
 
-        LazyVerticalGrid(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White),
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White),
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
 
-            ) { items(movies){ movie ->
+                ) { items(movies){ movie ->
 
-            MovieCard(filmId ,navController  , movie = movie)
-        }
+                MovieCard(filmId ,navController  , movie = movie)
+            }
         }
 
 
@@ -87,13 +88,7 @@ fun MovieCard(filmId: MutableStateFlow<String>,
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    var detail by remember {
-        mutableStateOf(0)
-    }
 
-    var idfilm by remember {
-        mutableStateOf("")
-    }
     ElevatedCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colors.surface,
@@ -114,9 +109,6 @@ fun MovieCard(filmId: MutableStateFlow<String>,
                 .fillMaxSize()
                 .clickable {
                     filmId.value = movie.id.toString()
-                    //idfilm = movie.id.toString()
-                    // idfilmUpdate(idfilm)
-
                     navController.navigate("filmDetails")
                 },
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -157,6 +149,7 @@ fun CoverImage(imageUrl: String) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
+
             .height(200.dp)
         // Ajustez la hauteur de l'image en mode portrait
     )
@@ -164,6 +157,7 @@ fun CoverImage(imageUrl: String) {
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun RechercheFilms(filmId: MutableStateFlow<String>, navController: NavController, name: String, viewModel: MainViewModel){
     val movies by viewModel.movies.collectAsState()
