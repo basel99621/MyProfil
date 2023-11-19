@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,14 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myprofil.R
-import androidx.compose.material3.Button
-import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun Screen(windowClass: WindowSizeClass, navController: NavController) {
+fun Screen(windowClass: WindowSizeClass, navController: NavController, viewModel: MainViewModel) {
     when (windowClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            LayoutVert(navController)
+            LayoutVert(navController, viewModel)
         }
 
 
@@ -66,12 +65,12 @@ fun Screen(windowClass: WindowSizeClass, navController: NavController) {
 
                     Text(
                         textAlign = TextAlign.Justify,
-                        text = "Etudiant en 4ième an alternance ",
+                        text = "Etudiant en alternance ",
                         fontSize = 20.sp
                     )
                     Text(
                         textAlign = TextAlign.Justify, text =
-                        "à l'école d'ingénieur ISIS",
+                        "à l'école d'ingénieurs ISIS",
                         fontSize = 20.sp
                     )
                 }
@@ -121,7 +120,7 @@ fun Screen(windowClass: WindowSizeClass, navController: NavController) {
                         )
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    button(navController , contenu ="submit" )
+                    button(navController , contenu ="submit", viewModel )
                 }
             }
         }
@@ -129,15 +128,25 @@ fun Screen(windowClass: WindowSizeClass, navController: NavController) {
 
     }
 }
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun button(navController: NavController, contenu: String) {
-    Button(onClick = { navController.navigate("films") }) {
-        Text(text = "Démarer")
-    }
+fun button(navController: NavController, contenu: String, viewModel: MainViewModel) {
+
+    viewModel.rememberSelectedItem.value="Films"
+    viewModel.iconeVisible.value=true
+       Button(onClick = { navController.navigate("films")
+        }) {
+            Text("Démarer")
+        }
+
+
+
+
+
 }
 
 @Composable
-fun LayoutVert(navController: NavController) {
+fun LayoutVert(navController: NavController, viewModel: MainViewModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
@@ -155,12 +164,12 @@ fun LayoutVert(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            textAlign = TextAlign.Justify, text = "Etudiant en 4ième an alternance ",
+            textAlign = TextAlign.Justify, text = "Etudiant en alternance ",
             fontSize = 20.sp
         )
         Text(
             textAlign = TextAlign.Justify, text =
-            "à l'école d'ingénieur ISIS",
+            "à l'école d'ingénieurs ISIS",
             fontSize = 20.sp
         )
 
@@ -201,10 +210,16 @@ fun LayoutVert(navController: NavController) {
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
-            button(navController, contenu = "submit")
+            button(navController, contenu = "submit", viewModel)
         }
     }
+
 }
+
+
+
+
+
 
 
 
